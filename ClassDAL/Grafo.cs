@@ -6,7 +6,7 @@ namespace ClassDAL
 {
     public class Grafo
     {
-        public List<Vertice> ListaAdyacencia = new List<Vertice>();
+        internal List<Vertice> ListaAdyacencia = new List<Vertice>();
 
         public string AgregarVertice(Entidad obj)
         {
@@ -35,13 +35,23 @@ namespace ClassDAL
             }
             return msj;
         }
-        public string[] MostrarAristasVertice(int posVertice, ref string msj)
+        public List<string> MostrarAristasVertice(int posVertice, ref string msj)
         {
-            string[] salida = null;
-            if (posVertice >= 0 && posVertice < ListaAdyacencia.Count)
+            NodoLista temp;
+            List<string> salida = new List<string>();
+
+            if (posVertice >= 0 && posVertice <= (ListaAdyacencia.Count -1))
             {
-                salida = ListaAdyacencia[posVertice].MostrarAristas();
-                msj = "Arista agregada";
+                temp = ListaAdyacencia[posVertice].listaEnlaces.inicio;
+
+                while (temp != null)
+                {
+                    salida.Add($"Vertice destino: {ListaAdyacencia[temp.numVertices].entidadInfo.Nombre} "
+                        +$"posición de enlace a {temp.numVertices} costo {temp.costo}");
+                    temp = temp.next;
+                }
+
+                msj = "Correcto";
             }
             else
             {
@@ -53,36 +63,44 @@ namespace ClassDAL
         {
             string[] salida = new string[ListaAdyacencia.Count];
             int cont;
-            for (cont = 0; cont < ListaAdyacencia.Count; cont++)
+            for (cont = 0; cont <= ListaAdyacencia.Count - 1; cont++)
             {
                 salida[cont] = ListaAdyacencia[cont].MostrarDatos();
             }
             return salida;
         }
-        private void DFSRecursivo(int visita,Boolean[] visitado,int [] resultados, ref int indice)
+        public List<string> RecorrerDFS(int vertice)
         {
-            visitado[visita]=true;
-            resultados[indice] = visita;
+            Boolean[] visitados = new Boolean[ListaAdyacencia.Count];
+            Stack<int> pilaResult=new Stack<int>();
+            List<string> listaResultados = new List<string>();
 
-            foreach(int vecino in ListaAdyacencia[visita].ObtenerVecinos())
+            pilaResult.Push(vertice);
+
+            while (pilaResult.Count != 0)
             {
-                if (!visitado[vecino]) DFSRecursivo(vecino, visitado,resultados,ref indice);
+                int v=pilaResult.Pop();
+                if (!visitados[v])
+                {
+                    visitados[v] = true;
+                    listaResultados.Add($"{v}: {ListaAdyacencia[v].entidadInfo.Nombre}");
+                    foreach(int i in ListaAdyacencia[v].ObtenerVecinos())
+                    {
+                        if (!visitados[i])
+                        {
+                            pilaResult.Push(i);
+                        }
+                    }
+                }
             }
-        }
-        public int[] DFS(int vertice)
-        {
-            Boolean[] visitado = new Boolean[ListaAdyacencia.Count];
-            int[] resultado = new int[ListaAdyacencia.Count];
-            int indice = 0;
 
-            DFSRecursivo(vertice, visitado, resultado,ref indice);
-            return resultado;
+            return listaResultados;            
         }
-        public string BFS(int verticeInicio)
+        public List<string> RecorrerBFS(int verticeInicio)
         {
             Boolean[] visitado = new Boolean[ListaAdyacencia.Count];
             Queue<int> colaResultado=new Queue<int>();
-            string res="";
+            List<string> resultados = new List<string>();
 
             visitado[verticeInicio] = true;
             colaResultado.Enqueue(verticeInicio);
@@ -90,7 +108,7 @@ namespace ClassDAL
             while (colaResultado.Count != 0)
             {
                 verticeInicio = colaResultado.Dequeue();
-                res += $"{verticeInicio} ";
+                resultados.Add($"{verticeInicio}:{ListaAdyacencia[verticeInicio].entidadInfo.Nombre}");
 
                 foreach(int v in ListaAdyacencia[verticeInicio].ObtenerVecinos())
                 {
@@ -101,7 +119,39 @@ namespace ClassDAL
                     }
                 }
             }
-            return res;
+            return resultados;
         }
+        private void BusquedaTopologicaRecursiva(int vertice, Boolean[] visitados, Stack<int> pilaResults)
+        {
+            visitados[vertice] = true;
+            foreach (int v in ListaAdyacencia[vertice].ObtenerVecinos())
+            {
+                if (!visitados[v])
+                {
+                    BusquedaTopologicaRecursiva(v, visitados, pilaResults);
+                }
+            }
+            pilaResults.Push(vertice);
+        }
+        public List<string> BusquedaTopologica()
+        {
+            Stack<int> pila = new Stack<int>();
+            Boolean[] visitados = new Boolean[ListaAdyacencia.Count];
+            List<string> result = new List<string>();
+
+            for (int i = 0; i < ListaAdyacencia.Count; i++)
+            {
+                if (!visitados[i])
+                {
+                    BusquedaTopologicaRecursiva(i, visitados, pila);
+                }
+            }
+
+            while (pila.Count != 0)
+            {
+                result.Add(pila.Pop().ToString());
+            }
+            return result;
+        }       
     }
 }

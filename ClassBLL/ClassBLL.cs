@@ -1,4 +1,5 @@
-﻿using ClassDAL;
+﻿using System.Collections.Generic;
+using ClassDAL;
 using ClassEntidades;
 
 namespace ClassBLL
@@ -16,7 +17,7 @@ namespace ClassBLL
             string temp = grafo.AgregarArista(origen, destino, costo);
             return temp;
         }
-        public string[] MostrarVerticesAristas(int pVertice, ref string msj)
+        public List<string> MostrarVerticesAristas(int pVertice, ref string msj)
         {
             return grafo.MostrarAristasVertice(pVertice, ref msj);
         }
@@ -24,9 +25,17 @@ namespace ClassBLL
         {
             return grafo.MostrarVertices();
         }
-        public string BFS(int verticeInicio)
+        public List<string> RecorrerDFS_BL(int vertice)
         {
-            return grafo.BFS(verticeInicio);
+            return grafo.RecorrerDFS(vertice);
         }
+        public List<string> RecorrerBFS_BL(int verticeInicio)
+        {
+            return grafo.RecorrerBFS(verticeInicio);
+        }
+        public List<string> BusquedaTopologicaBL()
+        {
+            return grafo.BusquedaTopologica();
+        }       
     }
 }
