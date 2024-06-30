@@ -34,6 +34,9 @@
     <Reference Include="ClassDAL">
       <HintPath>..\ClassDAL\bin\Debug\ClassDAL.dll</HintPath>
     </Reference>
+    <Reference Include="ClassEntidades">
+      <HintPath>..\ClassEntidades\bin\Debug\ClassEntidades.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

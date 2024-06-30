@@ -24,5 +24,9 @@ namespace ClassBLL
         {
             return grafo.MostrarVertices();
         }
+        public string BFS(int verticeInicio)
+        {
+            return grafo.BFS(verticeInicio);
+        }
     }
 }
