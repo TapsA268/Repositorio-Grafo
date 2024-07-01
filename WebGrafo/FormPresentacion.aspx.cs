@@ -24,11 +24,9 @@ namespace WebGrafo
                 objBL = (ClassBL)Session["objBL"];
             }
         }
-
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (TextBox1.Text == string.Empty || TextBox2.Text == string.Empty) TextBox6.Text = "Ingresa datos válidos";
-            else
+            try
             {
                 Entidad objEntidad = new Entidad()
                 {
@@ -36,34 +34,42 @@ namespace WebGrafo
                     Edad = int.Parse(TextBox2.Text)
                 };
                 TextBox6.Text = objBL.AgregarVerticeBL(objEntidad);
-                TextBox1.Text = "";
-                TextBox2.Text = "";
             }
+            catch (Exception ex)
+            {
+                TextBox6.Text = $"{ex.Message}";
+            }
+            TextBox1.Text = "";
+            TextBox2.Text = "";
+
 
             string[] arrayTemp = objBL.MostrarVerticesBL();
-
             DropDownList1.Items.Clear();
+            DropDownList4.Items.Clear();
+            DropDownList5.Items.Clear();
 
             foreach (string cadena in arrayTemp)
             {
                 DropDownList1.Items.Add(cadena);
+                DropDownList4.Items.Add(cadena);
+                DropDownList5.Items.Add(cadena);
             };
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            if (TextBox3.Text == string.Empty || TextBox4.Text == string.Empty || TextBox5.Text == string.Empty) TextBox6.Text = "Ingresa datos válidos";
-            else
+            int origen = -5;
+            int destino = -5;
+
+            if (DropDownList4.SelectedIndex != -1 || DropDownList5.SelectedIndex != -1)
             {
-                int origen = int.Parse(TextBox3.Text);
-                int destino = int.Parse(TextBox4.Text);
+                origen = DropDownList4.SelectedIndex;
+                destino = DropDownList5.SelectedIndex;
                 float costo = float.Parse(TextBox5.Text);
 
                 TextBox6.Text = objBL.AgregarAristaBL(origen, destino, costo);
-                TextBox3.Text = "";
-                TextBox4.Text = "";
                 TextBox5.Text = "";
-            } 
+            }
         }
 
         protected void Button3_Click(object sender, EventArgs e)
@@ -83,6 +89,7 @@ namespace WebGrafo
                 {
                     DropDownList2.Items.Add(cadena);
                 };
+                TextBox6.Text = msj;
             }
         }
 
@@ -125,14 +132,59 @@ namespace WebGrafo
         protected void Button6_Click(object sender, EventArgs e)
         {
             List<string> temp;
-            DropDownList3.Items.Clear();
+            int vertice = -5;
 
-            temp = objBL.BusquedaTopologicaBL();
-
-            foreach (string cad in temp)
+            if (DropDownList1.SelectedIndex != -1)
             {
-                DropDownList3.Items.Add(cad);
+                DropDownList3.Items.Clear();
+                vertice = DropDownList1.SelectedIndex;
+                temp = objBL.BusquedaTopologicaVerticeBL(vertice);
+
+                foreach (string cad in temp)
+                {
+                    DropDownList3.Items.Add(cad);
+                }
             }
         }
+
+        protected void Button7_Click(object sender, EventArgs e)
+        {
+            int vertice = -5;
+            string msj = "";
+
+            if (DropDownList1.SelectedIndex != -1)
+            {
+                DropDownList3.Items.Clear();
+                vertice = DropDownList1.SelectedIndex;
+                string[] salida = objBL.Djikstra(vertice, ref msj);
+
+                foreach (string cad in salida)
+                {
+                    DropDownList3.Items.Add(cad);
+                }
+                TextBox6.Text = msj;
+            }
+        }
+
+        protected void Button8_Click(object sender, EventArgs e)
+        {
+            int origen = -5;
+            int destino = -5;
+
+            if (DropDownList4.SelectedIndex != -1 || DropDownList5.SelectedIndex != -1)
+            {
+                DropDownList3.Items.Clear();
+                origen = DropDownList4.SelectedIndex;
+                destino = DropDownList5.SelectedIndex;
+                List<int> ListaTemp = objBL.EncontrarCaminoBL(origen, destino);
+
+                foreach (int Elemento in ListaTemp)
+                {
+                    DropDownList3.Items.Add(Elemento.ToString());
+                }
+            }
+
+        }
+
     }
 }

@@ -6,13 +6,13 @@ namespace ClassBLL
 {
     public class ClassBL
     {
-        Grafo grafo = new Grafo();        
+        Grafo grafo = new Grafo();
         public string AgregarVerticeBL(Entidad obj)
         {
             string temp = grafo.AgregarVertice(obj);
             return temp;
         }
-        public string AgregarAristaBL(int origen,int destino,float costo)
+        public string AgregarAristaBL(int origen, int destino, float costo)
         {
             string temp = grafo.AgregarArista(origen, destino, costo);
             return temp;
@@ -33,9 +33,17 @@ namespace ClassBLL
         {
             return grafo.RecorrerBFS(verticeInicio);
         }
-        public List<string> BusquedaTopologicaBL()
+        public List<string> BusquedaTopologicaVerticeBL(int vertice)
         {
-            return grafo.BusquedaTopologica();
-        }       
+            return grafo.BusquedaTopologicaVertice(vertice);
+        }
+        public List<int> EncontrarCaminoBL(int origen, int destino)
+        {
+            return grafo.EncontrarCaminos(origen, destino);
+        }
+        public string[] Djikstra(int vertInicio, ref string msj)
+        {
+            return grafo.Djikstra(vertInicio, ref msj);
+        }
     }
 }

@@ -11,7 +11,7 @@
 </head>
 <body style="background-color:#1A1C22">
     <form id="form1" runat="server">
-        <div class="container text-center">
+<div class="container text-center">
             <h1>Grafo en web</h1>
             
             Agregar Vertice
@@ -35,40 +35,42 @@
             <div class="row g-3 mb-5">
                 Origen: 
                 <div class="col">
-                    <asp:TextBox ID="TextBox3" runat="server" Width="44px" CssClass="form-control"></asp:TextBox>
+                    <asp:DropDownList ID="DropDownList4" runat="server" CssClass="btn btn-dark"></asp:DropDownList>            
                 </div>
                 Destino: 
                 <div class="col">
-                    <asp:TextBox ID="TextBox4" runat="server" Width="44px" CssClass="form-control"></asp:TextBox>
+                    <asp:DropDownList ID="DropDownList5" runat="server" CssClass="btn btn-dark"></asp:DropDownList>                    
                 </div>
                 Costo:
                 <div class="col">
                     <asp:TextBox ID="TextBox5" runat="server" Width="44px" CssClass="form-control"></asp:TextBox>
                 </div>
-            </div>
-           
-            <div class="row mb-5">
+            </div>           
+            <div class="row g-3 mb-5">
                 <div class="col">
-                    <asp:TextBox ID="TextBox6" runat="server" Width="350px" CssClass="form-control"></asp:TextBox>            
-                </div>
+                    <asp:TextBox ID="TextBox6" runat="server" Width="400px" ReadOnly="true" CssClass="form-control"></asp:TextBox>            
+                </div>                      
+            </div>
+            <div class="row g-3 mb-5">
+                Vértices:
                 <div class="col">
                     <asp:DropDownList ID="DropDownList1" runat="server" Height="39px" Width="329px" CssClass="btn btn-dark">
                     </asp:DropDownList>
                 </div>
+                Aristas del Vértice:
                 <div class="col">
                     <asp:DropDownList ID="DropDownList2" runat="server" CssClass="btn btn-dark" Height="39px" Width="322px">
                     </asp:DropDownList>
-                </div>      
-            </div>
-            <div class="row mb-5">
-                 <div class="col">
-                    <asp:Button ID="Button2" runat="server" Text="Agregar arista" CssClass="btn btn-outline-light" OnClick="Button2_Click" />
-                </div> 
+                </div>
                 <div class="col">
-                    <asp:Button ID="Button3" runat="server" Text="Mostrar Aristas del vertice" CssClass="btn btn-outline-primary" OnClick="Button3_Click" />
+                    <asp:Button ID="Button2" runat="server" Text="Agregar arista" CssClass="btn btn-outline-light" OnClick="Button2_Click" />
                 </div>
             </div>
-            
+            <div class="row mb-5">                 
+                <div class="col align-self-center">
+                    <asp:Button ID="Button3" runat="server" Text="Mostrar Aristas del vertice" CssClass="btn btn-outline-primary" OnClick="Button3_Click" />
+                </div>
+            </div>            
             <div class="row mb-5">   
                 <div class="col">
                     <asp:Button ID="Button4" runat="server" Text="Recorrer DFS" CssClass="btn btn-outline-warning" OnClick="Button4_Click" />
@@ -79,11 +81,17 @@
                 <div class="col">
                     <asp:Button ID="Button6" runat="server" Text="Busqueda Topológica" CssClass="btn btn-outline-warning" OnClick="Button6_Click" />
                 </div>
+                 <div class="col">
+                    <asp:Button ID="Button8" runat="server" Text="Buscar aristas" CssClass="btn btn-outline-warning" OnClick="Button8_Click"/>
+                </div>
+                <div class="col">
+                    <asp:Button ID="Button7" runat="server" Text="Encontrar camino más corto" CssClass="btn btn-outline-warning" OnClick="Button7_Click" />            
+                </div>
             </div>
             <hr class="my-4" />
             Recorridos y búsqueda
             <asp:DropDownList ID="DropDownList3" runat="server" CssClass="btn btn-dark" Height="39px" Width="220px">
-            </asp:DropDownList>
+            </asp:DropDownList>    
             
             <hr class="my-4"/>
             <canvas></canvas>

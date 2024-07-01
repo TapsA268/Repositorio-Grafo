@@ -133,25 +133,121 @@ namespace ClassDAL
             }
             pilaResults.Push(vertice);
         }
-        public List<string> BusquedaTopologica()
+        public List<string> BusquedaTopologicaVertice(int vertice)
         {
             Stack<int> pila = new Stack<int>();
             Boolean[] visitados = new Boolean[ListaAdyacencia.Count];
             List<string> result = new List<string>();
 
-            for (int i = 0; i < ListaAdyacencia.Count; i++)
-            {
-                if (!visitados[i])
-                {
-                    BusquedaTopologicaRecursiva(i, visitados, pila);
-                }
-            }
+            BusquedaTopologicaRecursiva(vertice, visitados, pila);
 
             while (pila.Count != 0)
             {
-                result.Add(pila.Pop().ToString());
+                result.Add($"Vértice con índice:{pila.Pop()}");
             }
             return result;
-        }       
+        }
+        public List<int> EncontrarCaminos(int origen, int destino)
+        {
+            List<string> OrdenTopologico = BusquedaTopologicaVertice(origen);
+            List<int> camino = new List<int>();
+            Boolean[] visitados = new Boolean[ListaAdyacencia.Count];
+            Dictionary<int, int> pred = new Dictionary<int, int>();
+            Queue<int> cola = new Queue<int>();
+
+            cola.Enqueue(origen);
+            visitados[origen] = true;
+
+            while (cola.Count > 0)
+            {
+                int actual = cola.Dequeue();
+                if (actual == destino)
+                {
+                    int rec = destino;
+                    while (rec != origen)
+                    {
+                        camino.Insert(0, rec);
+                        rec = pred[rec];
+                    }
+                    camino.Insert(0, origen);
+                    return camino;
+                }
+                foreach (int vecino in ListaAdyacencia[actual].ObtenerVecinos())
+                {
+                    if (!visitados[vecino])
+                    {
+                        visitados[vecino] = true;
+                        pred[vecino] = actual;
+                        cola.Enqueue(vecino);
+                    }
+                }
+            }
+            return null;
+        }
+        private int DistanciaMinima(float[] distancia, Boolean[] visitado)
+        {
+            float minimo = float.MaxValue;
+            int indiceMin = -1;
+            for (int i = 0; i < distancia.Length; i++)
+            {
+                if (!visitado[i] && distancia[i] < minimo)
+                {
+                    minimo = distancia[i];
+                    indiceMin = i;
+                }
+            }
+            return indiceMin;
+        }
+        private float ObtenerCosto(int origen, int destino)
+        {
+            NodoLista temp = ListaAdyacencia[origen].listaEnlaces.inicio;
+            while (temp != null)
+            {
+                if (temp.numVertices == destino) return temp.costo;
+                temp = temp.next;
+            }
+            return float.MaxValue;
+        }
+        private string[] MostrarDjikstra(float[] distancia, int verticeInicio, ref string msj)
+        {
+            string[] resultado = new string[ListaAdyacencia.Count];
+            msj = $"Vértice de inicio: {verticeInicio}";
+            for (int i = 0; i < distancia.Length; i++)
+            {
+                resultado[i] = $"Vértice: {i} está en una distancia {distancia[i]}";
+            }
+            return resultado;
+        }
+        public string[] Djikstra(int verticeInicio, ref string msj)
+        {
+            Boolean[] visitado = new Boolean[ListaAdyacencia.Count];
+            float[] distancias = new float[ListaAdyacencia.Count];
+
+            for (int i = 0; i < ListaAdyacencia.Count; i++)
+            {
+                distancias[i] = float.MaxValue;
+                visitado[i] = false;
+            }
+
+            distancias[verticeInicio] = 0;
+
+            for (int cont = 0; cont < ListaAdyacencia.Count - 1; cont++)
+            {
+                int dist = DistanciaMinima(distancias, visitado);
+                if (dist == -1) break;
+                visitado[dist] = true;
+
+                List<int> vecinos = ListaAdyacencia[dist].ObtenerVecinos();
+                foreach (int vecino in vecinos)
+                {
+                    float costo = ObtenerCosto(dist, vecino);
+                    if (!visitado[vecino] && distancias[dist] != float.MaxValue && distancias[dist] + costo < distancias[vecino])
+                    {
+                        distancias[vecino] = distancias[dist] + costo;
+                    }
+                }
+            }
+            return MostrarDjikstra(distancias, verticeInicio, ref msj);
+        }
     }
 }
