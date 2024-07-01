@@ -1,25 +1,28 @@
 ﻿using System;
 using ClassEntidades;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ClassDAL
 {
     public class Grafo
     {
+        [JsonProperty]
         internal List<Vertice> ListaAdyacencia = new List<Vertice>();
 
         public string AgregarVertice(Entidad obj)
         {
-            string msj = $"Vertice {obj.MostrarDatos()} agregado";
+            string msj;
+            msj = $"Vertice {obj.MostrarDatos()} agregado";
             ListaAdyacencia.Add(new Vertice(obj));
             return msj;
         }
-        public string AgregarArista(int origen, int dest,float costo)
+        public string AgregarArista(int origen, int dest, float costo)
         {
-            string msj = "";
+            string msj;
             if (origen >= 0 && origen <= (ListaAdyacencia.Count - 1))
             {
-                if(dest>=0 && dest <= (ListaAdyacencia.Count - 1))
+                if (dest >= 0 && dest <= (ListaAdyacencia.Count - 1))
                 {
                     ListaAdyacencia[origen].AgregarArista(dest, costo);
                     msj = "Arista agregada";
@@ -40,14 +43,14 @@ namespace ClassDAL
             NodoLista temp;
             List<string> salida = new List<string>();
 
-            if (posVertice >= 0 && posVertice <= (ListaAdyacencia.Count -1))
+            if (posVertice >= 0 && posVertice <= (ListaAdyacencia.Count - 1))
             {
                 temp = ListaAdyacencia[posVertice].listaEnlaces.inicio;
 
                 while (temp != null)
                 {
                     salida.Add($"Vertice destino: {ListaAdyacencia[temp.numVertices].entidadInfo.Nombre} "
-                        +$"posición de enlace a {temp.numVertices} costo {temp.costo}");
+                        + $"posición de enlace a {temp.numVertices} costo {temp.costo}");
                     temp = temp.next;
                 }
 
@@ -72,19 +75,19 @@ namespace ClassDAL
         public List<string> RecorrerDFS(int vertice)
         {
             Boolean[] visitados = new Boolean[ListaAdyacencia.Count];
-            Stack<int> pilaResult=new Stack<int>();
+            Stack<int> pilaResult = new Stack<int>();
             List<string> listaResultados = new List<string>();
 
             pilaResult.Push(vertice);
 
             while (pilaResult.Count != 0)
             {
-                int v=pilaResult.Pop();
+                int v = pilaResult.Pop();
                 if (!visitados[v])
                 {
                     visitados[v] = true;
                     listaResultados.Add($"{v}: {ListaAdyacencia[v].entidadInfo.Nombre}");
-                    foreach(int i in ListaAdyacencia[v].ObtenerVecinos())
+                    foreach (int i in ListaAdyacencia[v].ObtenerVecinos())
                     {
                         if (!visitados[i])
                         {
@@ -94,12 +97,12 @@ namespace ClassDAL
                 }
             }
 
-            return listaResultados;            
+            return listaResultados;
         }
         public List<string> RecorrerBFS(int verticeInicio)
         {
             Boolean[] visitado = new Boolean[ListaAdyacencia.Count];
-            Queue<int> colaResultado=new Queue<int>();
+            Queue<int> colaResultado = new Queue<int>();
             List<string> resultados = new List<string>();
 
             visitado[verticeInicio] = true;
@@ -108,9 +111,9 @@ namespace ClassDAL
             while (colaResultado.Count != 0)
             {
                 verticeInicio = colaResultado.Dequeue();
-                resultados.Add($"{verticeInicio}:{ListaAdyacencia[verticeInicio].entidadInfo.Nombre}");
+                resultados.Add($"{verticeInicio}: {ListaAdyacencia[verticeInicio].entidadInfo.Nombre}");
 
-                foreach(int v in ListaAdyacencia[verticeInicio].ObtenerVecinos())
+                foreach (int v in ListaAdyacencia[verticeInicio].ObtenerVecinos())
                 {
                     if (!visitado[v])
                     {
@@ -143,7 +146,7 @@ namespace ClassDAL
 
             while (pila.Count != 0)
             {
-                result.Add($"Vértice con índice:{pila.Pop()}");
+                result.Add($"Vértice con índice: {pila.Pop()}");
             }
             return result;
         }

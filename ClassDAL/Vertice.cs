@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using ClassEntidades;
+using Newtonsoft.Json;
 
 namespace ClassDAL
 {
     public class Vertice
     {
+        [JsonProperty]
         internal Entidad entidadInfo;
+        [JsonProperty]
         internal ListaAristas listaEnlaces = new ListaAristas();
 
         public Vertice(Entidad objEntidad)

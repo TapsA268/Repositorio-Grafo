@@ -11,7 +11,7 @@ namespace WebGrafo
 {
     public partial class FormPresentacion : System.Web.UI.Page
     {
-        ClassBL objBL;
+        public ClassBL objBL;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -23,6 +23,8 @@ namespace WebGrafo
             {
                 objBL = (ClassBL)Session["objBL"];
             }
+            string jsonGrafo = objBL.SerializarGrafo();
+            ClientScript.RegisterStartupScript(this.GetType(), "dibujarGrafo", $"dibujarGrafo('{jsonGrafo}');", true);
         }
         protected void Button1_Click(object sender, EventArgs e)
         {
@@ -41,6 +43,8 @@ namespace WebGrafo
             }
             TextBox1.Text = "";
             TextBox2.Text = "";
+            string jsonGrafo = objBL.SerializarGrafo();
+            ClientScript.RegisterStartupScript(this.GetType(), "dibujarGrafo", $"dibujarGrafo('{jsonGrafo}');", true);
 
 
             string[] arrayTemp = objBL.MostrarVerticesBL();
@@ -69,6 +73,8 @@ namespace WebGrafo
 
                 TextBox6.Text = objBL.AgregarAristaBL(origen, destino, costo);
                 TextBox5.Text = "";
+                string jsonGrafo = objBL.SerializarGrafo();
+                ClientScript.RegisterStartupScript(this.GetType(), "dibujarGrafo", $"dibujarGrafo('{jsonGrafo}');", true);
             }
         }
 
@@ -183,8 +189,6 @@ namespace WebGrafo
                     DropDownList3.Items.Add(Elemento.ToString());
                 }
             }
-
         }
-
     }
 }

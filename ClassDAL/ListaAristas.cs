@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace ClassDAL
 {
     public class ListaAristas
     {
+        [JsonProperty]
         internal NodoLista inicio;
+        [JsonProperty]
         int contadorElmnts = 0;
 
         public string Insertar(int NumV, float costo)

@@ -8,12 +8,14 @@
     <title>Grafo Web</title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <script src="Scripts/bootstrap.min.js"></script>
+    <script src="GraficarGrafoJS/Circulo.js"></script>
+    <script src="GraficarGrafoJS/Trigonometria.js"></script>
+    <script src="GraficarGrafoJS/graficarGrafo.js"></script>
 </head>
 <body style="background-color:#1A1C22">
     <form id="form1" runat="server">
-<div class="container text-center">
+        <div class="container text-center">
             <h1>Grafo en web</h1>
-            
             Agregar Vertice
             <hr class="my-4"/>
             <div class="row g-3 mb-5">
@@ -45,6 +47,9 @@
                 <div class="col">
                     <asp:TextBox ID="TextBox5" runat="server" Width="44px" CssClass="form-control"></asp:TextBox>
                 </div>
+                <div class="col">
+                    <asp:Button ID="Button2" runat="server" Text="Agregar arista" CssClass="btn btn-outline-light" OnClick="Button2_Click" />
+                </div>
             </div>           
             <div class="row g-3 mb-5">
                 <div class="col">
@@ -61,9 +66,6 @@
                 <div class="col">
                     <asp:DropDownList ID="DropDownList2" runat="server" CssClass="btn btn-dark" Height="39px" Width="322px">
                     </asp:DropDownList>
-                </div>
-                <div class="col">
-                    <asp:Button ID="Button2" runat="server" Text="Agregar arista" CssClass="btn btn-outline-light" OnClick="Button2_Click" />
                 </div>
             </div>
             <div class="row mb-5">                 
@@ -91,10 +93,9 @@
             <hr class="my-4" />
             Recorridos y búsqueda
             <asp:DropDownList ID="DropDownList3" runat="server" CssClass="btn btn-dark" Height="39px" Width="220px">
-            </asp:DropDownList>    
-            
+            </asp:DropDownList>            
             <hr class="my-4"/>
-            <canvas></canvas>
+            <canvas id="Canvas1" width="800" height="800" border:"1px solid #00000";></canvas>
         </div>
     </form>
 </body>

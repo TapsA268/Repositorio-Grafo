@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ClassDAL;
 using ClassEntidades;
+using Newtonsoft.Json;
 
 namespace ClassBLL
 {
@@ -44,6 +45,11 @@ namespace ClassBLL
         public string[] Djikstra(int vertInicio, ref string msj)
         {
             return grafo.Djikstra(vertInicio, ref msj);
+        }
+        public string SerializarGrafo()
+        {
+            string grafoSerializado = JsonConvert.SerializeObject(grafo);
+            return grafoSerializado;
         }
     }
 }

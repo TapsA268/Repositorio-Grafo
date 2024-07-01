@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace ClassDAL
 {
     public class NodoLista
