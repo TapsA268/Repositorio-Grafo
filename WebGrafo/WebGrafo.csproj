@@ -92,6 +92,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="FormPresentacion.aspx" />
     <Content Include="GraficarGrafoJS\Circulo.js" />
+    <Content Include="GraficarGrafoJS\dibujarGrafo.js" />
     <Content Include="GraficarGrafoJS\graficarGrafo.js" />
     <Content Include="GraficarGrafoJS\Trigonometria.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />

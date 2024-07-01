@@ -22,9 +22,7 @@ namespace WebGrafo
             else
             {
                 objBL = (ClassBL)Session["objBL"];
-            }
-            string jsonGrafo = objBL.SerializarGrafo();
-            ClientScript.RegisterStartupScript(this.GetType(), "dibujarGrafo", $"dibujarGrafo('{jsonGrafo}');", true);
+            }     
         }
         protected void Button1_Click(object sender, EventArgs e)
         {
