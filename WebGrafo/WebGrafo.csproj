@@ -93,6 +93,10 @@
     <Content Include="FormPresentacion.aspx" />
     <Content Include="GraficarGrafoJS\Circulo.js" />
     <Content Include="GraficarGrafoJS\dibujarGrafo.js" />
+<<<<<<< HEAD
+=======
+    <Content Include="GraficarGrafoJS\graficarGrafo.js" />
+>>>>>>> 47f5106f9f908d86909562ad8eec01581220b60d
     <Content Include="GraficarGrafoJS\Trigonometria.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
